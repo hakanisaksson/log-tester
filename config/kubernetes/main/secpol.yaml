@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: List
+metadata: {}
+items:
+
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    name: default-deny
+    namespace: ${k8sNamespace}
+  spec:
+    podSelector: {}
+    policyTypes:
+    - Ingress
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    name: allow-from-local
+    namespace: ${k8sNamespace}
+  spec:
+    ingress:
+    - from:
+      - ipBlock:
+          cidr: 10.0.0.0/8
+      - podSelector: {}
+    podSelector: {}
+    policyTypes:
+    - Ingress
